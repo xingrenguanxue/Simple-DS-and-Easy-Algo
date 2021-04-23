@@ -1,2 +1,18 @@
-# Simple-DS-and-Easy-Algo
-Simple Data Structures and Easy Algorithms
+简洁的数据结构和简单的算法
+
+# 数据结构
+
+- 线性表（List）
+  - 顺序表（C 实现）
+  - 单链表（C 实现）
+  - 单向循环链表（C 实现）
+  - 双向链表（C 实现）
+- 栈（Stack）
+  - 顺序栈（C 实现）
+  - 链栈（C 实现）
+- 队列（Queue）
+  - 顺序队列（C 实现）
+  - 链队列（C 实现）
+- 树（Tree）
+  - 二叉树 链式结构递归遍历（C 实现）
+  - 二叉树 链式结构栈遍历（C 实现）
