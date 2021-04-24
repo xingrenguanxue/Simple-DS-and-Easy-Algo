@@ -210,7 +210,9 @@ int main()
     ***********************************/
 
     TreeNode *root = NULL;
+    printf("请输入前序序列以构造二叉树\n");
     create_binary_tree(&root); //ABD##E##C#F##
+    
     printf("先序遍历为：");
     preorder_traversal_by_stack(root); //ABDECF
     printf("\n");

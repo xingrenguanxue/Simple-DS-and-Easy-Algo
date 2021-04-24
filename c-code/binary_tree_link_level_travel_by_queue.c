@@ -147,7 +147,9 @@ int main()
     ***********************************/
 
     TreeNode *root;
+    printf("请输入前序序列以构造二叉树\n");
     create_binary_tree(&root); //ABD##E##C#F##
+    
     printf("层序遍历顺序为：");
     levelorder_travelsal_by_queue(root);
 
