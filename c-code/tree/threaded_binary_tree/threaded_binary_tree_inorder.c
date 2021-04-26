@@ -65,8 +65,9 @@ TTreeNode *get_prev_node_inorder(TTreeNode *node)
     //如果其左指针不是线索
     //找到其左子树
     TTreeNode *p = node->left_child;
-    //找到其左子树中最后一个被遍历的结点
-    //根据中序遍历的特点：左子树中的 最右结点 为最后一个被遍历
+    //根据中序遍历的特点：某结点的直接前驱，为其左子树中最后一个被遍历的结点
+    //左子树中的 最右结点 为最后一个被遍历
+    //找到其左子树中 最右边的结点
     while (p != NULL && p->right_flag == 0) { //右指针不是线索
         p = p->right_child;
     }
@@ -87,8 +88,9 @@ TTreeNode *get_next_node_inorder(TTreeNode *node)
     //如果右指针不是线索
     //找到其右子树
     TTreeNode *p = node->right_child;
-    //找到其右子树中第一个被遍历的结点
-    //根据中序遍历的特点：右子树中的 最左结点 为第一个被遍历
+    //根据中序遍历的特点：某结点的直接后继，为其右子树中第一个被遍历的结点
+    //右子树中的 最左结点 为第一个被遍历
+    //找到其右子树中最左边的结点
     while (p != NULL && p->left_flag == 0) {
         p = p->left_child;
     }
