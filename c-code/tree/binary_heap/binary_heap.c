@@ -15,7 +15,7 @@ typedef struct {
  * @description: 初始化二叉堆
  * @param {BinaryHeap} *heap 二叉堆
  * @param {int} *array 数组首地址，该数组是一个无序完全二叉树
- * @param {int} arr_length 数组长度
+ * @param {int} arr_length 数组长度。若初始化空堆，则长度设 0 即可，数组内容随意
  * @return {*} 无
  */
 void init_heap(BinaryHeap *heap, int *array, int arr_length)
@@ -220,7 +220,7 @@ int main()
 
     init_heap(&heap, array, 10);
 
-    //init_heap(&heap, array, 0); // 设置二叉堆长度为0，即空堆
+    //init_heap(&heap, array, 0); // 若设置空堆，长度置 0 即可，数组内容随意
 
     printf("原完全二叉树（未调整）：\n");
     output_heap(heap);
