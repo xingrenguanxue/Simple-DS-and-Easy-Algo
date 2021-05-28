@@ -1,4 +1,6 @@
-/*二叉堆的创建、结点插入、结点删除*/
+/*
+ * 二叉最大堆
+ */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -26,8 +28,16 @@ void init_heap(BinaryHeap *heap, int *array, int arr_length)
     heap->length = arr_length;
 }
 
+/*交换指针i j 指向的变量值*/
+void swap(int *i, int *j)
+{
+    int tmp = *i;
+    *i = *j;
+    *j = tmp;
+}
+
 /**
- * @description: 最大堆调整，调整某个非叶子结点，即下标为 parent_index 的结点
+ * @description: 最大堆调整，调整某个非叶子结点，即下标为 parent_index 的结点（借助swap函数实现交换）
  * @param {BinaryHeap} *heap 待调整的二叉堆
  * @param {int} parent_index 待调整的非叶子结点
  * @return {*} 无
@@ -50,16 +60,19 @@ void adjust_for_max_heap(BinaryHeap *heap, int parent_index)
                 child_index = child_index + 1;
             }
         }
-        if (value < heap->array[child_index]) {
-            heap->array[parent_index] = heap->array[child_index];
+        // 双亲值小于孩子值
+        if (heap->array[parent_index] < heap->array[child_index]) {
+            // 交换二者，实现大值结点上浮
+            swap(&heap->array[parent_index], &heap->array[child_index]);
+            // 更新双亲及孩子下标，待下一次比较交换
             parent_index = child_index;
             child_index = parent_index * 2 + 1;
         } else {
             break;
         }
-        heap->array[parent_index] = value;
     }
 }
+
 
 /**
  * @description: 创造一个最大堆
@@ -75,75 +88,7 @@ void create_max_heap(BinaryHeap *heap)
 }
 
 /**
- * @description: 针对某个非叶子结点进行到底的下沉调整
- * @param {BinaryHeap} *heap 二叉堆（无序）
- * @param {int} parent_index 某个非叶子结点
- * @return {*} 无
- */
-void adjust_for_min_heap(BinaryHeap *heap, int parent_index)
-{
-    // value 保存非叶子结点的值
-    int value = heap->array[parent_index];
-    // child_index 标识左孩子
-    int child_index = parent_index * 2 + 1;
-    // 最后一个结点的下标
-    int last_child_index = heap->length - 1;
-
-    // 双亲结点 parent 至少有一个孩子
-    while (child_index <= last_child_index) {
-        // 如果双亲结点 parent 有左孩子和右孩子
-        if (child_index < last_child_index) {
-            // 比较左孩子和右孩子谁小，如果右孩子小，
-            if (heap->array[child_index] > heap->array[child_index + 1]) {
-                // 则 child_index 标识右孩子
-                child_index = child_index + 1;
-            }
-        }
-        // 如果双亲的值大于 child 的值
-        if (value > heap->array[child_index]) {
-            heap->array[parent_index] = heap->array[child_index]; // 小节点上浮
-            parent_index = child_index; // 更新双亲下标
-            child_index = parent_index * 2 + 1; // 更新孩子下标
-        } else { // 不做操作，跳出循环
-            break;
-        }
-        // 大节点下沉
-        heap->array[parent_index] = value;
-    }
-}
-
-/**
- * @description: 构造最小堆
- * @param {BinaryHeap} *heap 二叉堆（无序）
- * @return {*} 无
- */
-void create_min_heap(BinaryHeap *heap)
-{
-    // 每个非叶子结点都调整
-    for (int i = (heap->length - 2) / 2; i >= 0; i--) {
-        adjust_for_min_heap(heap, i);
-    }
-}
-
-/**
- * @description: 向最小堆中插入一个元素
- * @param {BinaryHeap} *heap 最小堆指针
- * @param {int} elem 新元素
- * @return {*} 无
- */
-void insert_into_min_heap(BinaryHeap *heap, int elem)
-{
-    if (heap->length == MAXSIZE) {
-        printf("二叉堆已满，无法插入。\n");
-        return;
-    }
-    heap->array[heap->length] = elem;  // 插入
-    heap->length++; // 更新长度
-    create_min_heap(heap); // 重新构造
-}
-
-/**
- * @description: 向最小堆中插入一个元素
+ * @description: 向最大堆中插入一个元素
  * @param {BinaryHeap} *heap 最大堆指针
  * @param {int} elem 新元素
  * @return {*} 无
@@ -157,24 +102,6 @@ void insert_into_max_heap(BinaryHeap *heap, int elem)
     heap->array[heap->length] = elem;
     heap->length++;
     create_max_heap(heap);
-}
-
-/**
- * @description: 删除最小堆的堆顶
- * @param {BinaryHeap} *heap 最小堆指针
- * @param {int} *elem 保存变量指针
- * @return {*} 无
- */
-void delete_from_min_heap(BinaryHeap *heap, int *elem)
-{
-    if (heap->length == 0) {
-        printf("二叉堆空，无元素可删。\n");
-        return;
-    }
-    *elem = heap->array[0];
-    heap->array[0] = heap->array[heap->length - 1]; // 移动到堆顶
-    heap->length--; // 更新长度
-    create_min_heap(heap); //重新构造
 }
 
 /**
@@ -195,11 +122,6 @@ void delete_from_max_heap(BinaryHeap *heap, int *elem)
     create_max_heap(heap);
 }
 
-/**
- * @description: 打印二叉堆
- * @param {BinaryHeap} heap 二叉堆
- * @return {*} 无
- */
 void output_heap(BinaryHeap heap)
 {
     if (heap.length == 0) {
@@ -240,28 +162,6 @@ int main()
     printf("delete elem = %d from max heap\n", elem);
     printf("删除堆顶后，调整得到最大堆：\n");
     output_heap(heap);
-    
 
-/*******************************************************/
-
-    init_heap(&heap, array, 10);
-    printf("原完全二叉树（未调整）：\n");
-    output_heap(heap);
-
-    create_min_heap(&heap);
-
-    printf("调整得到最小堆：\n");
-    output_heap(heap);
-
-    insert_into_min_heap(&heap, 0);
-
-    printf("插入元素后，调整得到最小堆：\n");
-    output_heap(heap);
-
-    delete_from_min_heap(&heap, &elem);
-    printf("delete elem = %d from min heap\n", elem);
-    printf("删除堆顶后，调整得到最小堆：\n");
-    output_heap(heap);
-    
     return 0;
 }
